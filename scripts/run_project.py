@@ -21,6 +21,7 @@ RE_TABLE_NAME = re.compile(r'FROM\s+([a-zA-Z]+)\s+WHERE') # filmy
 RE_FEATURE = re.compile(r'WHERE\s+([a-zA-Z]+)') # czas
 RE_CONSTRAINT = re.compile(r'WHERE\s+.+\s(.*)') # krótki
 
+FCL_FILE = 'user_definitions.fcl'
 TABLE_FILE = '../tables/filmy.tsv'
 TUPLES_FILE = 'tuples.tsv'
 OUTPUT_FILE = 'output.tsv'
@@ -80,7 +81,7 @@ def main():
 
     #  Parse constraint and obtain an interval
     print('\nParsing constraint from the query ...')
-    interval = parse_constraint(constraint)
+    interval = parse_constraint(feature, constraint, FCL_FILE)
     print('Constraint parsed. Corresponding interval obtained: {}.'.format(interval))
 
     #  Search for tuples
