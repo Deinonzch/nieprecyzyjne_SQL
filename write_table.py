@@ -9,9 +9,9 @@ except:
     
 cur = conn.cursor()
 try:
-    cur.execute("""SELECT * from baby_name WHERE gender='F'""")
+    cur.execute("""SELECT * from pokemon WHERE attack>35""")
 except:
-    print("I can't SELECT from baby_name")
+    print("I can't SELECT from pokemon")
 
 rows = cur.fetchall()
 print("\nRows: \n")
