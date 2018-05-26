@@ -1,6 +1,9 @@
 import psycopg2
 
 # Try to connect
+#"SELECT * from pokemon WHERE attack>35"
+print('Podaj zapytanie SQL: ')
+zapytanie=input()
 
 try:
     conn=psycopg2.connect("dbname='Kuhaku' user='deinonzch'")
@@ -9,7 +12,7 @@ except:
     
 cur = conn.cursor()
 try:
-    cur.execute("""SELECT * from pokemon WHERE attack>35""")
+    cur.execute(zapytanie)
 except:
     print("I can't SELECT from pokemon")
 
