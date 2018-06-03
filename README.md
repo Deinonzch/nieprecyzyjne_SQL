@@ -9,6 +9,7 @@ $ sudo -u postgres createuser alan
 $ sudo -u postgres createdb alan
 
 $ sudo -u postgres psql
+
 psql=# alter user alan with encrypted password 'alan';
 
 psql=# grant all privileges on database alan to alan ;
