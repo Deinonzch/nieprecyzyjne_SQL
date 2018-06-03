@@ -14,10 +14,10 @@ NO_ANSWERS = ['n', 'no']
 
 #SELECT * FROM filmy WHERE czas krótki
 
-FCL_FILE = 'user_definitions.fcl'
+FCL_FILE = '../files/user_definitions.fcl'
 TABLE_FILE = '../tables/filmy.tsv'
-TUPLES_FILE = 'tuples.tsv'
-OUTPUT_FILE = 'output.tsv'
+TUPLES_FILE = '../files/tuples.tsv'
+OUTPUT_FILE = '../files/output.tsv'
 
 
 def ask_for_threshold():

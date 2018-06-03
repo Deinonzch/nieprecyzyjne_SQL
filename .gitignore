@@ -1,5 +1,5 @@
 __pycache__/
 *.pyc
 *.swp
-output.tsv
-tuples.tsv
+files/output.tsv
+files/tuples.tsv
