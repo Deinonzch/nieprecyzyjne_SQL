@@ -1,6 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import psycopg2
+
+
+def execute_query(query):
+    """
+    """
+    try:
+        conn=psycopg2.connect("dbname='alan' user='alan' host='localhost' password='alan'")
+    except:
+        print('Failed to connect to the database.')
+        return
+
+    cur = conn.cursor()
+    try:
+        cur.execute(query)
+    except:
+        print('Failed to execute query.')
+
+    table = cur.fetchall()
+    return table
+
 
 def write_to_file(table, fname):
     """Write to file
@@ -10,15 +31,30 @@ def write_to_file(table, fname):
             table_f.write('{}\n'.format(row))
 
 
-def load_from_db(table_name):
-    """Load table from the database
+def print_table(table):
     """
-    table = [1,2,3,4,5]
-    return table
+    """
+    print()
+    for i, row in enumerate(table):
+        print('\t{}'.format(row))
+        if i == 15:
+            break
+    print('\t...\n')
 
 
 def retrieve_table(table_name, fname):
     """Retrieve requested table
     """
-    table = load_from_db(table_name)
+    query = 'SELECT * FROM {}'.format(table_name)
+    table = execute_query(query)
     write_to_file(table, fname)
+
+
+def execute_directly(query, fname):
+    try:
+        table = execute_query(query)
+        write_to_file(table, fname)
+        print_table(table)
+        return 1
+    except:
+        return 0

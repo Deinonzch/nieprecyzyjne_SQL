@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import sys
+
 from query_parser import parse_query
 from fuzzy_manager import parse_constraint
 from db_manager import retrieve_table
+from db_manager import execute_query
+from db_manager import execute_directly
 from table_manager import extract_tuples
 from table_manager import execute_instruction
 
@@ -12,12 +16,10 @@ DEFAULT_THRESHOLD = 0.5
 YES_ANSWERS = ['y', 'yes']
 NO_ANSWERS = ['n', 'no']
 
-#SELECT * FROM filmy WHERE czas krótki
-
-FCL_FILE = '../files/user_definitions.fcl'
-TABLE_FILE = '../tables/filmy.tsv'
-TUPLES_FILE = '../files/tuples.tsv'
-OUTPUT_FILE = '../files/output.tsv'
+FCL_FILE = 'files/user_definitions.fcl'
+TABLE_FILE = 'files/tmp_table.tsv'
+TUPLES_FILE = 'files/tuples.tsv'
+OUTPUT_FILE = 'files/output.tsv'
 
 
 def ask_for_threshold():
@@ -38,7 +40,7 @@ def ask_for_threshold():
 def ask_for_input():
     """Ask user for input
     """
-    print('Fill in \'user_definitions.fcl\' file.')
+    print('Fill in \'files/user_definitions.fcl\' file.')
     input('Press enter to continue ...')
     print('Variables and terms specified.')
     thr = ask_for_threshold()
@@ -52,18 +54,27 @@ def main():
     """Main function
     """
     #  Ask user for input
-    threshold, user_query = ask_for_input()
+    #threshold, user_query = ask_for_input()
 
-    #threshold = 0.5
-    #user_query = 'SELECT * FROM filmy WHERE czas krótki'
+    threshold = 0.5
+    user_query = 'SELECT * FROM pokemon WHERE attack > 35'
+    #user_query = 'SELECT * FROM pokemon WHERE attack is strong'
+
+    #  Try to execute as ordinary sql query
+    print('\nTrying to execute query directly ...')
+    if execute_directly(user_query, TABLE_FILE):
+        print('Query executed directly. Exiting.')
+        sys.exit(1)
 
     #  Parse user query
+    print('\nParsing query ...')
     instruction, table_name, feature, constraint = parse_query(user_query)
+    print('Query parsed.')
 
     #  Retrieve requested table
-    '''print('\nRetrieving requested table from the database ...')
+    print('\nRetrieving requested table from the database ...')
     retrieve_table(table_name, TABLE_FILE)
-    print('Table retrieved and saved to \'{}\' file.'.format(TABLE_FILE))'''
+    print('Table retrieved and saved to \'{}\' file.'.format(TABLE_FILE))
 
     #  Parse constraint and obtain an interval
     print('\nParsing constraint from the query ...')

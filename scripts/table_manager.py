@@ -6,6 +6,9 @@ import shutil
 import csv
 
 
+INSTR = ['select', 'count']
+
+
 def write_tuples_file(tuples_dict, tuples_file):
     """Write tuples to file
     """
@@ -36,9 +39,9 @@ def extract_tuples(feature, interval, table_file, tuples_file):
 def execute_instruction(instr, tuples_file, output_file):
     """Execute instruction
     """
-    if instr == 'SELECT':
+    if instr == INSTR[0]:
         shutil.move(tuples_file, output_file)
-    elif instr == 'COUNT':
+    elif instr == INSTR[1]:
         with open(tuples_file, 'r') as tuples_f:
             num_lines = sum(1 for line in tuples_f)-1
         with open(output_file, 'w') as output_f:
