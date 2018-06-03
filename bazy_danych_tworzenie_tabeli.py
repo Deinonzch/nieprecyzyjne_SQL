@@ -1,5 +1,5 @@
 import psycopg2
-conn = psycopg2.connect("dbname='Kuhaku' user='deinonzch'")
+conn = psycopg2.connect("dbname='alan' user='alan' host='localhost' password='alan'")
 cur = conn.cursor()
 ##,Name,Type,Total,HP,Attack,Defense,Special Attack,Special Defense,Speed
 cur.execute("""

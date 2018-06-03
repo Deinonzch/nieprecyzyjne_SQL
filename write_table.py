@@ -6,7 +6,7 @@ print('Podaj zapytanie SQL: ')
 zapytanie=input()
 
 try:
-    conn=psycopg2.connect("dbname='Kuhaku' user='deinonzch'")
+    conn=psycopg2.connect("dbname='alan' user='alan' host='localhost' password='alan'")
 except:
     print("I am unable to connect to the database.")
     
