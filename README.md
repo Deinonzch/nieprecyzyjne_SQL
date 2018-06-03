@@ -2,6 +2,20 @@
 
 Bazy danych: https://public.tableau.com/en-us/s/resources
 
+Tworzenie bazy:
+
+$ sudo -u postgres createuser alan
+
+$ sudo -u postgres createdb alan
+
+$ sudo -u postgres psql
+psql=# alter user alan with encrypted password 'alan';
+
+psql=# grant all privileges on database alan to alan ;
+
+
+
+
 tworzenie tabeli z pokemonami w postgresie:
 
 1. uruchom w konsoli  python3 bazy_danych_tworzenie_tabeli.py
