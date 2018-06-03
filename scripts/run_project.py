@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import re
-import sys
-
+from query_parser import parse_query
 from fuzzy_manager import parse_constraint
 from db_manager import retrieve_table
 from table_manager import extract_tuples
@@ -15,11 +13,6 @@ YES_ANSWERS = ['y', 'yes']
 NO_ANSWERS = ['n', 'no']
 
 #SELECT * FROM filmy WHERE czas krótki
-
-RE_INSTRUCTION = re.compile(r'([a-zA-Z]+)\s+.+\s+FROM') # SELECT (Assuming *)
-RE_TABLE_NAME = re.compile(r'FROM\s+([a-zA-Z]+)\s+WHERE') # filmy
-RE_FEATURE = re.compile(r'WHERE\s+([a-zA-Z]+)') # czas
-RE_CONSTRAINT = re.compile(r'WHERE\s+.+\s(.*)') # krótki
 
 FCL_FILE = 'user_definitions.fcl'
 TABLE_FILE = '../tables/filmy.tsv'
@@ -45,7 +38,7 @@ def ask_for_threshold():
 def ask_for_input():
     """Ask user for input
     """
-    print('Fill in \'user_definitions.fcl\' file with linguistic variable(s) and terms.')
+    print('Fill in \'user_definitions.fcl\' file.')
     input('Press enter to continue ...')
     print('Variables and terms specified.')
     thr = ask_for_threshold()
@@ -64,15 +57,8 @@ def main():
     #threshold = 0.5
     #user_query = 'SELECT * FROM filmy WHERE czas krótki'
 
-    #  Extract values
-    try:
-        instruction = RE_INSTRUCTION.search(user_query).group(1)
-        table_name = RE_TABLE_NAME.search(user_query).group(1)
-        feature = RE_FEATURE.search(user_query).group(1)
-        constraint = RE_CONSTRAINT.search(user_query).group(1)
-    except AttributeError:
-        print('Invalid query. Exiting.')
-        sys.exit(1)
+    #  Parse user query
+    instruction, table_name, feature, constraint = parse_query(user_query)
 
     #  Retrieve requested table
     '''print('\nRetrieving requested table from the database ...')

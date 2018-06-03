@@ -1,4 +1,4 @@
-FUNCTION_BLOCK block_name
+FUNCTION_BLOCK filmy
 
 VAR_INPUT				
 	var_1 : REAL;
