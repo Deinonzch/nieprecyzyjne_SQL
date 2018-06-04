@@ -1,19 +1,27 @@
-FUNCTION_BLOCK filmy
+FUNCTION_BLOCK pokemon
 
 VAR_INPUT				
-	var_1 : REAL;
-	var_2 : REAL;
+	attack : REAL;
+	defence : REAL;
+        speed : REAL;
 END_VAR
 
-FUZZIFY czas
-	TERM krótki := (80, 0) (80, 0) (120, 0);
-	TERM średni := (80, 0) (120, 0) (160, 0);
-	TERM długi := (120, 0) (160, 0) (160, 0);
+FUZZIFY attack
+	TERM weak := (0, 0) (0, 0) (95, 0);
+	TERM medium := (0, 0) (95, 0) (190, 0);
+	TERM strong := (95, 0) (190, 0) (190, 0);
 END_FUZZIFY
 
-FUZZIFY wiek
-	TERM stary := (1990, 0) (1990, 0) (2010, 0);
-	TERM nowy := (1990, 0) (2010, 0) (2010, 0);
+FUZZIFY defence
+	TERM weak := (0, 0) (0, 0) (115, 0);
+        TERM medium := (0, 0) (115, 0) (230, 0);
+	TERM strong := (115, 0) (230, 0) (230, 0);
+END_FUZZIFY
+
+FUZZIFY speed
+        TERM slow := (0, 0) (0, 0) (90, 0);
+        TERM medium := (0, 0) (90, 0) (180, 0);
+        TERM fast := (90, 0) (180, 0) (180, 0);
 END_FUZZIFY
 
 END_FUNCTION_BLOCK
