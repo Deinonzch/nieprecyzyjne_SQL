@@ -31,47 +31,52 @@ class Query(object):
         self.constr_list = []
 
 
-def split_constr_expr(expr):
-    """From 'czas krótki AND budzet niski AND rok_produkcji późny'
-       obtain ['czas krótki', 'AND', 'budzet niski', 'AND', 'rok_produkcji późny']
-    """
-    delimiters = '|'.join(CONJUNCTIONS)
-    constraints = re.split(delimiters, expr)
-    conj_in_expr = []
-    for word in expr.split():
-        if word in CONJUNCTIONS:
-            conj_in_expr.append(word)
-    return constraints, conj_in_expr
+class QueryParser(object):
+
+    def __init__(self):
+        pass
+
+    def split_constr_expr(self, expr):
+        """From 'czas krótki AND budzet niski AND rok_produkcji późny'
+           obtain ['czas krótki', 'AND', 'budzet niski', 'AND', 'rok_produkcji późny']
+        """
+        delimiters = '|'.join(CONJUNCTIONS)
+        constraints = re.split(delimiters, expr)
+        conj_in_expr = []
+        for word in expr.split():
+            if word in CONJUNCTIONS:
+                conj_in_expr.append(word)
+        return constraints, conj_in_expr
 
 
-def parse_query(user_query):
-    """Parse user query
-    """
-    query = Query()
+    def parse_query(self, user_query):
+        """Parse user query
+        """
+        query = Query()
 
-    query.whole_expr = user_query
-    query.instr_expr = re.split('WHERE', user_query)[0].strip()
-    query.constr_expr = re.split('WHERE', user_query)[1].strip()
+        query.whole_expr = user_query
+        query.instr_expr = re.split('WHERE', user_query)[0].strip()
+        query.constr_expr = re.split('WHERE', user_query)[1].strip()
     
-    print(query.instr_expr)
-    print(query.constr_expr)
+        print(query.instr_expr)
+        print(query.constr_expr)
 
-    #try:
-    #    constr_expr = RE_CONSTR_EXPR.search(query).group(1)
-    #except AttributeError:
-    #    print('Attribute error')
-    #constraints, conj_in_expr = split_constr_expr(constr_expr)
+        #try:
+        #    constr_expr = RE_CONSTR_EXPR.search(query).group(1)
+        #except AttributeError:
+        #    print('Attribute error')
+        #constraints, conj_in_expr = split_constr_expr(constr_expr)
 
-    try:
-        instruction = RE_INSTRUCTION.search(user_query).group(1)
-        #print(instruction)
-        table_name = RE_TABLE_NAME.search(user_query).group(1)
-        #print(table_name)
-        feature = RE_FEATURE.search(user_query).group(1)
-        #print(feature)
-        constraint = RE_CONSTRAINT.search(user_query).group(1)
-        #print(constraint)
-    except AttributeError:
-        print('Invalid query. Exiting.')
-        sys.exit(1)
-    return instruction, table_name, feature, constraint
+        try:
+            instruction = RE_INSTRUCTION.search(user_query).group(1)
+            #print(instruction)
+            table_name = RE_TABLE_NAME.search(user_query).group(1)
+            #print(table_name)
+            feature = RE_FEATURE.search(user_query).group(1)
+            #print(feature)
+            constraint = RE_CONSTRAINT.search(user_query).group(1)
+            #print(constraint)
+        except AttributeError:
+            print('Invalid query. Exiting.')
+            sys.exit(1)
+        return instruction, table_name, feature, constraint

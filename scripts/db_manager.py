@@ -4,57 +4,65 @@
 import psycopg2
 
 
-def execute_query(query):
-    """
-    """
-    try:
-        conn=psycopg2.connect("dbname='alan' user='alan' host='localhost' password='alan'")
-    except:
-        print('Failed to connect to the database.')
-        return
+class DBManager(object):
 
-    cur = conn.cursor()
-    try:
-        cur.execute(query)
-    except:
-        print('Failed to execute query.')
+    def __init__(self):
+        pass
 
-    table = cur.fetchall()
-    return table
+    def execute_query(self, query):
+        """Connect to the database and execute query
+        """
+        try:
+            conn=psycopg2.connect("dbname='alan' user='alan' host='localhost' password='alan'")
+        except:
+            print('Failed to connect to the database.')
+            return None
 
+        cur = conn.cursor()
+        try:
+            cur.execute(query)
+        except:
+            print('Failed to execute query.')
+            return None
 
-def write_to_file(table, fname):
-    """Write to file
-    """
-    with open(fname, 'w') as table_f:
-        for row in table:
-            table_f.write('{}\n'.format(row))
+        table = cur.fetchall()
+        return table
 
 
-def print_table(table):
-    """
-    """
-    print()
-    for i, row in enumerate(table):
-        print('\t{}'.format(row))
-        if i == 15:
-            break
-    print('\t...\n')
+    def write_to_file(self, table, fname):
+        """Write to file
+        """
+        with open(fname, 'w') as table_f:
+            for row in table:
+                table_f.write('{}\n'.format(row))
 
 
-def retrieve_table(table_name, fname):
-    """Retrieve requested table
-    """
-    query = 'SELECT * FROM {}'.format(table_name)
-    table = execute_query(query)
-    write_to_file(table, fname)
+    def print_table(self, table):
+        """Print retrieved table
+        """
+        print()
+        for i, row in enumerate(table):
+            print('\t{}'.format(row))
+            if i == 15:
+                break
+        print('\t...\n')
 
 
-def execute_directly(query, fname):
-    try:
-        table = execute_query(query)
-        write_to_file(table, fname)
-        print_table(table)
-        return 1
-    except:
-        return 0
+    def retrieve_table(self, table_name, fname):
+        """Retrieve requested table
+        """
+        query = 'SELECT * FROM {}'.format(table_name)
+        table = self.execute_query(query)
+        self.write_to_file(table, fname)
+
+
+    def execute_directly(self, query, fname):
+        """Try to execute query directly, without any parsing
+        """
+        try:
+            table = self.execute_query(query)
+            self.write_to_file(table, fname)
+            self.print_table(table)
+            return 1
+        except:
+            return 0

@@ -3,13 +3,10 @@
 
 import sys
 
-from query_parser import parse_query
-from fuzzy_manager import parse_constraint
-from db_manager import retrieve_table
-from db_manager import execute_query
-from db_manager import execute_directly
-from table_manager import extract_tuples
-from table_manager import execute_instruction
+from query_parser import QueryParser
+from fuzzy_manager import FuzzyManager
+from table_manager import TableManager
+from db_manager import DBManager
 
 DEFAULT_THRESHOLD = 0.5
 
@@ -17,8 +14,8 @@ YES_ANSWERS = ['y', 'yes']
 NO_ANSWERS = ['n', 'no']
 
 FCL_FILE = 'files/user_definitions.fcl'
-TABLE_FILE = 'files/tmp_table.tsv'
-TUPLES_FILE = 'files/tuples.tsv'
+IN_TABLE_FILE = 'files/tmp_in_table.tsv'
+OUT_TABLE_FILE = 'files/tmp_out_tuples.tsv'
 OUTPUT_FILE = 'files/output.tsv'
 
 
@@ -50,6 +47,39 @@ def ask_for_input():
     return thr, query
 
 
+def process_fuzzy_query(user_query, threshold, db_mgr):
+    """Process query with fuzzy constraints
+    """
+    parser = QueryParser()
+    fuzzy_mgr = FuzzyManager()
+    table_mgr = TableManager()
+
+    #  Parse user query
+    print('\nParsing query ...')
+    instruction, table_name, feature, constraint = parser.parse_query(user_query)
+    print('Query parsed.')
+
+    #  Retrieve requested table
+    print('\nRetrieving requested table from the database ...')
+    db_mgr.retrieve_table(table_name, IN_TABLE_FILE)
+    print('Table retrieved and saved to \'{}\' file.'.format(IN_TABLE_FILE))
+
+    #  Parse constraint and obtain an interval
+    print('\nParsing constraint from the query ...')
+    interval = fuzzy_mgr.parse_constraint(feature, constraint, FCL_FILE)
+    print('Constraint parsed. Corresponding interval obtained: {}.'.format(interval))
+
+    #  Search for tuples
+    print('\nExtracting tuples that meet the requirement ...')
+    table_mgr.extract_tuples(feature, interval, IN_TABLE_FILE, OUT_TABLE_FILE)
+    print('Tuples extracted and saved to \'{}\' file.'.format(OUT_TABLE_FILE))
+
+    #  Parse and execute instruction
+    print('\nExecuting instruction ...')
+    table_mgr.execute_instruction(instruction, OUT_TABLE_FILE, OUTPUT_FILE)
+    print('Instruction executed. Output saved to \'{}\' file.'.format(OUTPUT_FILE))
+
+
 def main():
     """Main function
     """
@@ -60,36 +90,16 @@ def main():
     user_query = 'SELECT * FROM pokemon WHERE attack > 35'
     #user_query = 'SELECT * FROM pokemon WHERE attack is strong'
 
-    #  Try to execute as ordinary sql query
+    #  Try to execute as an ordinary sql query
+    #  If failure, process query with fuzzy constraints
     print('\nTrying to execute query directly ...')
-    if execute_directly(user_query, TABLE_FILE):
+    db_mgr = DBManager()
+    if db_mgr.execute_directly(user_query, IN_TABLE_FILE):
         print('Query executed directly. Exiting.')
         sys.exit(1)
-
-    #  Parse user query
-    print('\nParsing query ...')
-    instruction, table_name, feature, constraint = parse_query(user_query)
-    print('Query parsed.')
-
-    #  Retrieve requested table
-    print('\nRetrieving requested table from the database ...')
-    retrieve_table(table_name, TABLE_FILE)
-    print('Table retrieved and saved to \'{}\' file.'.format(TABLE_FILE))
-
-    #  Parse constraint and obtain an interval
-    print('\nParsing constraint from the query ...')
-    interval = parse_constraint(feature, constraint, FCL_FILE)
-    print('Constraint parsed. Corresponding interval obtained: {}.'.format(interval))
-
-    #  Search for tuples
-    print('\nExtracting tuples that meet the requirement ...')
-    extract_tuples(feature, interval, TABLE_FILE, TUPLES_FILE)
-    print('Tuples extracted and saved to \'{}\' file.'.format(TUPLES_FILE))
-
-    #  Parse and execute instruction
-    print('\nExecuting instruction ...')
-    execute_instruction(instruction, TUPLES_FILE, OUTPUT_FILE)
-    print('Instruction executed. Output saved to \'{}\' file.'.format(OUTPUT_FILE))
+    else:
+        print('Processing query with fuzzy constraints ...')
+        process_fuzzy_query(user_query, threshold, db_mgr)
 
 
 if __name__ == '__main__':
