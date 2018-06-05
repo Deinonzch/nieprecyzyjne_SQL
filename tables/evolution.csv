@@ -94,9 +94,9 @@ Mudkip,Marshtomp,16,,Level
 Marshtomp,Swampert,36,,Level
 Poochyena,Mightyena,18,,Level
 Zigzagoon,Linoone,20,,Level
-Wurmple,Silcoon,7,"Random, based on personality",Level
+Wurmple,Silcoon,7,Random based on personality,Level
 Silcoon,Beautifly,10,,Level
-Wurmple,Cascoon,7,"Random, based on personality",Level
+Wurmple,Cascoon,7,Random based on personality,Level
 Cascoon,Dustox,10,,Level
 Lotad,Lombre,14,,Level
 Seedot,Nuzleaf,14,,Level
@@ -155,12 +155,9 @@ Luxio,Luxray,30,,Level
 Cranidos,Rampardos,30,,Level
 Shieldon,Bastiodon,30,,Level
 Burmy,Mothim,20,Male,Level
-Burmy,Wormadam,20,"Female, outside",Level
-,Plant Cloak,,,Level
-Burmy,Wormadam,20,"Female, in caves",Level
-,Sandy Cloak,,,Level
-Burmy,Wormadam,20,"Female, in buildings",Level
-,Trash Cloak,,,Level
+Burmy,Wormadam,20,Female outside,Level
+Burmy,Wormadam,20,Female in caves,Level
+Burmy,Wormadam,20,Female in buildings,Level
 Combee,Vespiquen,21,Female,Level
 Buizel,Floatzel,26,,Level
 Cherubi,Cherrim,25,,Level
@@ -200,7 +197,6 @@ Whirlipede,Scolipede,30,,Level
 Sandile,Krokorok,29,,Level
 Krokorok,Krookodile,40,,Level
 Darumaka,Darmanitan,35,,Level
-,Standard Mode,,,Level
 Dwebble,Crustle,34,,Level
 Scraggy,Scrafty,39,,Level
 Yamask,Cofagrigus,34,,Level
@@ -252,7 +248,6 @@ Flabébé,Floette,19,,Level
 Skiddo,Gogoat,32,,Level
 Pancham,Pangoro,32,with a Dark type Pokémon in party,Level
 Espurr,Meowstic,25,,Level
-,Male,,,Level
 Honedge,Doublade,35,,Level
 Inkay,Malamar,30,holding 3DS upside down,Level
 Binacle,Barbaracle,39,,Level
@@ -264,128 +259,125 @@ Goomy,Sliggoo,40,,Level
 Sliggoo,Goodra,55,during rain,Level
 Bergmite,Avalugg,37,,Level
 Noibat,Noivern,48,,Level
-Pikachu,Raichu,,Thunderstone,Stone
-Nidorina,Nidoqueen,,Moon Stone,Stone
-Nidorino,Nidoking,,Moon Stone,Stone
-Clefairy,Clefable,,Moon Stone,Stone
-Vulpix,Ninetales,,Fire Stone,Stone
-Jigglypuff,Wigglytuff,,Moon Stone,Stone
-Gloom,Vileplume,,Leaf Stone,Stone
-Gloom,Bellossom,,Sun Stone,Stone
-Growlithe,Arcanine,,Fire Stone,Stone
-Poliwhirl,Poliwrath,,Water Stone,Stone
-Weepinbell,Victreebel,,Leaf Stone,Stone
-Shellder,Cloyster,,Water Stone,Stone
-Exeggcute,Exeggutor,,Leaf Stone,Stone
-Staryu,Starmie,,Water Stone,Stone
-Eevee,Vaporeon,,Water Stone,Stone
-Eevee,Jolteon,,Thunderstone,Stone
-Eevee,Flareon,,Fire Stone,Stone
-Togetic,Togekiss,,Shiny Stone,Stone
-Sunkern,Sunflora,,Sun Stone,Stone
-Murkrow,Honchkrow,,Dusk Stone,Stone
-Misdreavus,Mismagius,,Dusk Stone,Stone
-Lombre,Ludicolo,,Water Stone,Stone
-Nuzleaf,Shiftry,,Leaf Stone,Stone
-Kirlia,Gallade,,Dawn Stone (Male),Stone
-Skitty,Delcatty,,Moon Stone,Stone
-Roselia,Roserade,,Shiny Stone,Stone
-Snorunt,Froslass,,Dawn Stone (Female),Stone
-Pansage,Simisage,,Leaf Stone,Stone
-Pansear,Simisear,,Fire Stone,Stone
-Panpour,Simipour,,Water Stone,Stone
-Munna,Musharna,,Moon Stone,Stone
-Cottonee,Whimsicott,,Sun Stone,Stone
-Petilil,Lilligant,,Sun Stone,Stone
-Minccino,Cinccino,,Shiny Stone,Stone
-Eelektrik,Eelektross,,Thunderstone,Stone
-Lampent,Chandelure,,Dusk Stone,Stone
-Floette,Florges,,Shiny Stone,Stone
-Doublade,Aegislash,,Dusk Stone,Stone
-,Blade Forme,,,Stone
-Doublade,Aegislash,,Dusk Stone,Stone
-,Shield Forme,,,Stone
-Helioptile,Heliolisk,,Sun Stone,Stone
-Poliwhirl,Politoed,,King's Rock,Trade
-Kadabra,Alakazam,,,Trade
-Machoke,Machamp,,,Trade
-Graveler,Golem,,,Trade
-Slowpoke,Slowking,,King's Rock,Trade
-Haunter,Gengar,,,Trade
-Onix,Steelix,,Metal Coat,Trade
-Rhydon,Rhyperior,,Protector,Trade
-Seadra,Kingdra,,Dragon Scale,Trade
-Scyther,Scizor,,Metal Coat,Trade
-Electabuzz,Electivire,,Electrizer,Trade
-Magmar,Magmortar,,Magmarizer,Trade
-Porygon,Porygon2,,Up-Grade,Trade
-Porygon2,Porygon-Z,,Dubious Disc,Trade
-Feebas,Milotic,,Prism Scale,Trade
-Dusclops,Dusknoir,,Reaper Cloth,Trade
-Clamperl,Huntail,,Deepseatooth,Trade
-Clamperl,Gorebyss,,Deepseascale,Trade
-Boldore,Gigalith,,,Trade
-Gurdurr,Conkeldurr,,,Trade
-Karrablast,Escavalier,,Trade with Shelmet,Trade
-Shelmet,Accelgor,,Trade with Karrablast,Trade
-Spritzee,Aromatisse,,Trade holding Sachet,Trade
-Swirlix,Slurpuff,,Trade holding Whipped Dream,Trade
-Phantump,Trevenant,,,Trade
-Pumpkaboo,Gourgeist,,,Trade
-Average Size,Average Size,,,Trade
-Magneton,Magnezone,,in Mt. Coronet or Chargestone Cave,Other
+Pikachu,Raichu,0,Thunderstone,Stone
+Nidorina,Nidoqueen,0,Moon Stone,Stone
+Nidorino,Nidoking,0,Moon Stone,Stone
+Clefairy,Clefable,0,Moon Stone,Stone
+Vulpix,Ninetales,0,Fire Stone,Stone
+Jigglypuff,Wigglytuff,0,Moon Stone,Stone
+Gloom,Vileplume,0,Leaf Stone,Stone
+Gloom,Bellossom,0,Sun Stone,Stone
+Growlithe,Arcanine,0,Fire Stone,Stone
+Poliwhirl,Poliwrath,0,Water Stone,Stone
+Weepinbell,Victreebel,0,Leaf Stone,Stone
+Shellder,Cloyster,0,Water Stone,Stone
+Exeggcute,Exeggutor,0,Leaf Stone,Stone
+Staryu,Starmie,0,Water Stone,Stone
+Eevee,Vaporeon,0,Water Stone,Stone
+Eevee,Jolteon,0,Thunderstone,Stone
+Eevee,Flareon,0,Fire Stone,Stone
+Togetic,Togekiss,0,Shiny Stone,Stone
+Sunkern,Sunflora,0,Sun Stone,Stone
+Murkrow,Honchkrow,0,Dusk Stone,Stone
+Misdreavus,Mismagius,0,Dusk Stone,Stone
+Lombre,Ludicolo,0,Water Stone,Stone
+Nuzleaf,Shiftry,0,Leaf Stone,Stone
+Kirlia,Gallade,0,Dawn Stone (Male),Stone
+Skitty,Delcatty,0,Moon Stone,Stone
+Roselia,Roserade,0,Shiny Stone,Stone
+Snorunt,Froslass,0,Dawn Stone (Female),Stone
+Pansage,Simisage,0,Leaf Stone,Stone
+Pansear,Simisear,0,Fire Stone,Stone
+Panpour,Simipour,0,Water Stone,Stone
+Munna,Musharna,0,Moon Stone,Stone
+Cottonee,Whimsicott,0,Sun Stone,Stone
+Petilil,Lilligant,0,Sun Stone,Stone
+Minccino,Cinccino,0,Shiny Stone,Stone
+Eelektrik,Eelektross,0,Thunderstone,Stone
+Lampent,Chandelure,0,Dusk Stone,Stone
+Floette,Florges,0,Shiny Stone,Stone
+Doublade,Aegislash,0,Dusk Stone,Stone
+,Blade Forme,0,,Stone
+Doublade,Aegislash,0,Dusk Stone,Stone
+,Shield Forme,0,,Stone
+Helioptile,Heliolisk,0,Sun Stone,Stone
+Poliwhirl,Politoed,0,King,s Rock Trade
+Kadabra,Alakazam,0,,Trade
+Machoke,Machamp,0,,Trade
+Graveler,Golem,0,,Trade
+Slowpoke,Slowking,0,King,s Rock Trade
+Haunter,Gengar,0,,Trade
+Onix,Steelix,0,Metal Coat,Trade
+Rhydon,Rhyperior,0,Protector,Trade
+Seadra,Kingdra,0,Dragon Scale,Trade
+Scyther,Scizor,0,Metal Coat,Trade
+Electabuzz,Electivire,0,Electrizer,Trade
+Magmar,Magmortar,0,Magmarizer,Trade
+Porygon,Porygon2,0,Up-Grade,Trade
+Porygon2,Porygon-Z,0,Dubious Disc,Trade
+Feebas,Milotic,0,Prism Scale,Trade
+Dusclops,Dusknoir,0,Reaper Cloth,Trade
+Clamperl,Huntail,0,Deepseatooth,Trade
+Clamperl,Gorebyss,0,Deepseascale,Trade
+Boldore,Gigalith,0,,Trade
+Gurdurr,Conkeldurr,0,,Trade
+Karrablast,Escavalier,0,Trade with Shelmet,Trade
+Shelmet,Accelgor,0,Trade with Karrablast,Trade
+Spritzee,Aromatisse,0,Trade holding Sachet,Trade
+Swirlix,Slurpuff,0,Trade holding Whipped Dream,Trade
+Phantump,Trevenant,0,,Trade
+Pumpkaboo,Gourgeist,0,,Trade
+Average Size,Average Size,0,,Trade
+Magneton,Magnezone,0,in Mt. Coronet or Chargestone Cave,Other
 Tyrogue,Hitmonlee,20,Attack > Defense,Other
 Tyrogue,Hitmonchan,20,Attack < Defense,Other
 Tyrogue,Hitmontop,20,Attack = Defense,Other
-Lickitung,Lickilicky,,after Rollout learned,Other
-Happiny,Chansey,,Daytime (holding Oval Stone),Other
-Tangela,Tangrowth,,after AncientPower learned,Other
-Mime Jr.,Mr. Mime,,after Mimic learned,Other
-Eevee,Leafeon,,near mossy rock in Eterna Forest or Pinwheel Forest,Other
-Eevee,Glaceon,,near icy rock in Route 217 or Twist Mountain,Other
-Eevee,Sylveon,,maximum Affection in Pokémon Amie and knows a Fairy-type move,Other
-Bonsly,Sudowoodo,,after Mimic learned,Other
-Aipom,Ambipom,,after Double Hit learned,Other
-Yanma,Yanmega,,after AncientPower learned,Other
-Gligar,Gliscor,,Nighttime (holding Razor Fang),Other
-Sneasel,Weavile,,Nighttime (holding Razor Claw),Other
-Piloswine,Mamoswine,,after AncientPower learned,Other
-Mantyke,Mantine,,with Remoraid in party,Other
-Wurmple,Silcoon,7,"Random, based on personality",Other
-Wurmple,Cascoon,7,"Random, based on personality",Other
+Lickitung,Lickilicky,0,after Rollout learned,Other
+Happiny,Chansey,0,Daytime (holding Oval Stone),Other
+Tangela,Tangrowth,0,after AncientPower learned,Other
+Mime Jr.,Mr. Mime,0,after Mimic learned,Other
+Eevee,Leafeon,0,near mossy rock in Eterna Forest or Pinwheel Forest,Other
+Eevee,Glaceon,0,near icy rock in Route 217 or Twist Mountain,Other
+Eevee,Sylveon,0,maximum Affection in Pokémon Amie and knows a Fairy-type move,Other
+Bonsly,Sudowoodo,0,after Mimic learned,Other
+Aipom,Ambipom,0,after Double Hit learned,Other
+Yanma,Yanmega,0,after AncientPower learned,Other
+Gligar,Gliscor,0,Nighttime (holding Razor Fang),Other
+Sneasel,Weavile,0,Nighttime (holding Razor Claw),Other
+Piloswine,Mamoswine,0,after AncientPower learned,Other
+Mantyke,Mantine,0,with Remoraid in party,Other
+Wurmple,Silcoon,7,Random based on personality,Other
+Wurmple,Cascoon,7,Random based on personality,Other
 Nincada,Shedinja,20,with empty spot in party,Other
-Nosepass,Probopass,,in Mt. Coronet or Chargestone Cave,Other
-Feebas,Milotic,,Beauty,Other
+Nosepass,Probopass,0,in Mt. Coronet or Chargestone Cave,Other
+Feebas,Milotic,0,Beauty,Other
 Burmy,Mothim,20,Male,Other
-Burmy,Wormadam,20,"Female, outside",Other
-,Plant Cloak,,,Other
-Burmy,Wormadam,20,"Female, in caves",Other
-,Sandy Cloak,,,Other
-Burmy,Wormadam,20,"Female, in buildings",Other
-,Trash Cloak,,,Other
+Burmy,Wormadam,20,Female outside,Other
+Burmy,Wormadam,20,Female in caves,Other
+Burmy,Wormadam,20,Female in buildings,Other
 Combee,Vespiquen,21,Female,Other
-Karrablast,Escavalier,,Trade with Shelmet,Other
-Shelmet,Accelgor,,Trade with Karrablast,Other
+Karrablast,Escavalier,0,Trade with Shelmet,Other
+Shelmet,Accelgor,0,Trade with Karrablast,Other
 Pancham,Pangoro,32,with a Dark type Pokémon in party,Other
-Spritzee,Aromatisse,,Trade holding Sachet,Other
-Swirlix,Slurpuff,,Trade holding Whipped Dream,Other
+Spritzee,Aromatisse,0,Trade holding Sachet,Other
+Swirlix,Slurpuff,0,Trade holding Whipped Dream,Other
 Inkay,Malamar,30,holding 3DS upside down,Other
 Tyrunt,Tyrantrum,39,Daytime,Other
 Amaura,Aurorus,39,Nighttime,Other
 Sliggoo,Goodra,55,during rain,Other
-Pichu,Pikachu,,,Happiness
-Cleffa,Clefairy,,,Happiness
-Igglybuff,Jigglypuff,,,Happiness
-Golbat,Crobat,,,Happiness
-Chansey,Blissey,,,Happiness
-Eevee,Espeon,,Daytime,Happiness
-Eevee,Umbreon,,Nighttime,Happiness
-Munchlax,Snorlax,,,Happiness
-Togepi,Togetic,,,Happiness
-Azurill,Marill,,,Happiness
-Budew,Roselia,,Daytime,Happiness
-Chingling,Chimecho,,Nighttime,Happiness
-Buneary,Lopunny,,,Happiness
-Riolu,Lucario,,Daytime,Happiness
-Woobat,Swoobat,,,Happiness
-Swadloon,Leavanny,,,Happiness
+Pichu,Pikachu,0,,Happiness
+Cleffa,Clefairy,0,,Happiness
+Igglybuff,Jigglypuff,0,,Happiness
+Golbat,Crobat,0,,Happiness
+Chansey,Blissey,0,,Happiness
+Eevee,Espeon,0,Daytime,Happiness
+Eevee,Umbreon,0,Nighttime,Happiness
+Munchlax,Snorlax,0,,Happiness
+Togepi,Togetic,0,,Happiness
+Azurill,Marill,0,,Happiness
+Budew,Roselia,0,Daytime,Happiness
+Chingling,Chimecho,0,Nighttime,Happiness
+Buneary,Lopunny,0,,Happiness
+Riolu,Lucario,0,Daytime,Happiness
+Woobat,Swoobat,0,,Happiness
+Swadloon,Leavanny,0,,Happiness

@@ -2,7 +2,16 @@ import psycopg2
 
 # Try to connect
 #"SELECT * from pokemon WHERE attack>35"
-print('Podaj zapytanie SQL: ')
+#number,name,type,total,hp,attack,defense,special_attack,specialdefense,speed - pokemon table
+#attack,defense,effectiveness,multiplier - pokemontypechart table
+#evolving_from,evolving_to,level,condition,evolution_type pokemonevolution table
+#score,title,type,genres,studios,main_actors - animelist table
+#id,tytul,rezyser,kraj,rok_produkcji,budzet,czas,gatunek - filmylist table
+#model,cena,wielkość_pamięci,wielkość_dysku,częstotliwość_procesora,rozmiar_monitora - komputery table
+#category_id,category_name,description - categories table
+#customer_id,customer_name,contact_name,address,city,postal_code,country - customers table
+#product_id,product_name,supplier_id,category_id,unit,price - products table
+print('Podaj zapytanie SQL: ') 
 zapytanie=input()
 
 try:
@@ -14,10 +23,12 @@ cur = conn.cursor()
 try:
     cur.execute(zapytanie)
 except:
-    print("I can't SELECT from pokemon")
+    print("I can't do SELECT")
 
 rows = cur.fetchall()
 print("\nRows: \n")
 for row in rows:
     print("   ", row)
+
+conn.close()
 
