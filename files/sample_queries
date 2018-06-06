@@ -1,0 +1,23 @@
+SQL:
+****
+
+SELECT * FROM pokemon WHERE attack > 35
+
+
+
+
+
+
+
+====================================================
+
+
+
+SQL + FUZZ:
+***********
+
+SELECT * FROM pokemon WHERE attack is strong
+
+SELECT * FROM pokemon WHERE attack is strong AND defence is medium AND speed is slow
+
+SELECT COUNT(*) FROM pokemon WHERE attack is strong AND defence is medium AND speed is slow

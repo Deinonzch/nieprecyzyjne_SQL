@@ -6,11 +6,6 @@ import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 import re
 
-RE_VARIABLE = re.compile(r'FUZZIFY\s+(.+)')
-RE_TERM = re.compile(r'\s+TERM\s+(.+)\s+:=')
-RE_VALUES = re.compile(r':=\s+(.+)')
-RE_VALUE = re.compile(r'\(([0-9]+),')
-
 
 class LingVar(object):
 
@@ -25,13 +20,16 @@ class LingVar(object):
 class FuzzyManager(object):
 
     def __init__(self):
-        pass
+        self.RE_VARIABLE = re.compile(r'FUZZIFY\s+(.+)')
+        self.RE_TERM = re.compile(r'\s+TERM\s+(.+)\s+:=')
+        self.RE_VALUES = re.compile(r':=\s+(.+)')
+        self.RE_VALUE = re.compile(r'\(([0-9]+),')
 
     def parse_values(self, string):
         """Parse values
         """
-        vals_str = RE_VALUES.search(string).group(1)
-        return [int(val) for val in RE_VALUE.findall(vals_str)]
+        vals_str = self.RE_VALUES.search(string).group(1)
+        return [int(val) for val in self.RE_VALUE.findall(vals_str)]
 
 
     def parse_fcl(self, fcl_file):
@@ -42,10 +40,10 @@ class FuzzyManager(object):
             for line in fcl_f:
                 if line.startswith('FUZZIFY'):
                     lingVar = LingVar()
-                    lingVar.name = RE_VARIABLE.search(line).group(1)
+                    lingVar.name = self.RE_VARIABLE.search(line).group(1)
                 elif 'TERM' in line:
-                    term = RE_TERM.search(line).group(1)
-                    values = parse_values(line)
+                    term = self.RE_TERM.search(line).group(1)
+                    values = self.parse_values(line)
                     term_dict = {'term': term, 'values': values}
                     lingVar.term_dicts.append(term_dict)
                 elif 'END_FUZZIFY' in line:
@@ -71,25 +69,36 @@ class FuzzyManager(object):
     def define_skfuzzy_var(self, lingVar):
         """Define variable using skfuzzy syntax
         """
-        min_val, max_val = find_min_max(lingVar)
+        min_val, max_val = self.find_min_max(lingVar)
         var = ctrl.Antecedent(np.arange(min_val, max_val, 1), lingVar.name)
         for term_dict in lingVar.term_dicts:
             var[term_dict['term']] = fuzz.trimf(var.universe, term_dict['values'])
-        var.view()
-        input("Press Enter to continue...")
+        #var.view()
+        #input("Press Enter to continue...")
         return var
 
 
-    def parse_constraint(self, feature, constraint, fcl_file):
-        """Parse constraint
+    def parse_constraint(self, feature, value, fcl_file):
+        """Parse constraint and obtain an interval
         """
-        lingVars = parse_fcl(fcl_file)
+        interval = None
+        lingVars = self.parse_fcl(fcl_file)
         for lingVar in lingVars:
             if lingVar.name == feature:
-                skfuzzy_var = define_skfuzzy_var(lingVar)
+                skfuzzy_var = self.define_skfuzzy_var(lingVar)
                 for term_dict in lingVar.term_dicts:
-                    if term_dict['term'] == constraint:
+                    if term_dict['term'] == value:
                         interval_beg = min(term_dict['values'])
                         interval_end = max(term_dict['values'])
-        interval = range(interval_beg, interval_end)
+                        interval = tuple((interval_beg, interval_end))
         return interval
+
+
+    def parse_constraints(self, constraints, fcl_file):
+        """Parse constraints
+        """
+        for constraint in constraints:
+            interval = self.parse_constraint(constraint['feature'], constraint['value'], fcl_file)
+            constraint['interval'] = interval
+            if not interval:
+                print('Failed to obtain interval for feature \'{}\' and value \'{}\'. Constraint will be ignored.'.format(feature, value))

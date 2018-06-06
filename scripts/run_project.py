@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import json
 
+from query import Query
 from query_parser import QueryParser
 from fuzzy_manager import FuzzyManager
 from table_manager import TableManager
@@ -14,9 +16,9 @@ YES_ANSWERS = ['y', 'yes']
 NO_ANSWERS = ['n', 'no']
 
 FCL_FILE = 'files/user_definitions.fcl'
-IN_TABLE_FILE = 'files/tmp_in_table.tsv'
-OUT_TABLE_FILE = 'files/tmp_out_tuples.tsv'
-OUTPUT_FILE = 'files/output.tsv'
+IN_FILE = 'files/in.tsv'
+TMP_FILE = 'files/tmp.tsv'
+OUT_FILE = 'files/out.tsv'
 
 
 def ask_for_threshold():
@@ -50,34 +52,40 @@ def ask_for_input():
 def process_fuzzy_query(user_query, threshold, db_mgr):
     """Process query with fuzzy constraints
     """
+    query = Query()
     parser = QueryParser()
     fuzzy_mgr = FuzzyManager()
     table_mgr = TableManager()
 
     #  Parse user query
     print('\nParsing query ...')
-    instruction, table_name, feature, constraint = parser.parse_query(user_query)
+    parser.parse_query(query, user_query)
+    print(query)
     print('Query parsed.')
+
+    #  Verify correctness of the query
+    #TODO: Implement verification (function + multiple columns provided not as *)
 
     #  Retrieve requested table
     print('\nRetrieving requested table from the database ...')
-    db_mgr.retrieve_table(table_name, IN_TABLE_FILE)
-    print('Table retrieved and saved to \'{}\' file.'.format(IN_TABLE_FILE))
+    db_mgr.retrieve_table(query.table_name, IN_FILE)
+    print('Table retrieved and saved to \'{}\' file.'.format(IN_FILE))
 
-    #  Parse constraint and obtain an interval
-    print('\nParsing constraint from the query ...')
-    interval = fuzzy_mgr.parse_constraint(feature, constraint, FCL_FILE)
-    print('Constraint parsed. Corresponding interval obtained: {}.'.format(interval))
+    #  Parse constraints and obtain intervals
+    print('\nParsing constraints from the query and obtaining intervals ...')
+    fuzzy_mgr.parse_constraints(query.constraints, FCL_FILE)
+    print(json.dumps(query.constraints, indent=4, ensure_ascii=False))
+    print('Constraints parsed.')
 
     #  Search for tuples
     print('\nExtracting tuples that meet the requirement ...')
-    table_mgr.extract_tuples(feature, interval, IN_TABLE_FILE, OUT_TABLE_FILE)
-    print('Tuples extracted and saved to \'{}\' file.'.format(OUT_TABLE_FILE))
+    table_mgr.extract_tuples(query.constraints, IN_FILE, TMP_FILE)
+    print('Tuples extracted and saved to temporary files.')
 
-    #  Parse and execute instruction
+    #  Parse and execute instruction with function
     print('\nExecuting instruction ...')
-    table_mgr.execute_instruction(instruction, OUT_TABLE_FILE, OUTPUT_FILE)
-    print('Instruction executed. Output saved to \'{}\' file.'.format(OUTPUT_FILE))
+    table_mgr.execute_instruction(query.instruction, query.function, query.columns, TMP_FILE, OUT_FILE)
+    print('Instruction executed. Output saved to \'{}\' file.'.format(OUT_FILE))
 
 
 def main():
@@ -87,18 +95,18 @@ def main():
     #threshold, user_query = ask_for_input()
 
     threshold = 0.5
-    user_query = 'SELECT * FROM pokemon WHERE attack > 35'
-    #user_query = 'SELECT * FROM pokemon WHERE attack is strong'
+    #user_query = 'SELECT * FROM pokemon WHERE attack > 35'
+    user_query = 'SELECT * FROM pokemon WHERE attack is strong AND defence is medium AND speed is slow'
+    #user_query = 'SELECT COUNT(*) FROM pokemon WHERE attack is strong AND defence is medium AND speed is slow'
 
     #  Try to execute as an ordinary sql query
     #  If failure, process query with fuzzy constraints
     print('\nTrying to execute query directly ...')
     db_mgr = DBManager()
-    if db_mgr.execute_directly(user_query, IN_TABLE_FILE):
+    if db_mgr.execute_directly(user_query, IN_FILE):
         print('Query executed directly. Exiting.')
         sys.exit(1)
     else:
-        print('Processing query with fuzzy constraints ...')
         process_fuzzy_query(user_query, threshold, db_mgr)
 
 
