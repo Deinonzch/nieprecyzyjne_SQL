@@ -1,0 +1,7 @@
+model	cena(PLN)	wielkość pamięci(GB)	wielkość dysku(GB)	częstotliwość procesora(Ghz)	rozmiar monitora(Cal)
+asus1	1500	2	128	1.4	19
+asus2	2400	8	500	3.2	24
+acer1	1900	4	500	2.4	21
+acer2	2900	8	1000	3.2	24
+dell1	1400	4	128	1.4	17
+dell2	2200	8	256	2.4	21
