@@ -1,5 +1,5 @@
 import psycopg2
-
+import texttable as tt
 # Try to connect
 #"SELECT * from pokemon WHERE attack>35"
 #number,name,type,total,hp,attack,defense,special_attack,specialdefense,speed - pokemon table
@@ -11,24 +11,34 @@ import psycopg2
 #category_id,category_name,description - categories table
 #customer_id,customer_name,contact_name,address,city,postal_code,country - customers table
 #product_id,product_name,supplier_id,category_id,unit,price - products table
-print('Podaj zapytanie SQL: ') 
+print('Podaj zapytanie SQL: ')
 zapytanie=input()
 
 try:
     conn=psycopg2.connect("dbname='alan' user='alan' host='localhost' password='alan'")
 except:
     print("I am unable to connect to the database.")
-    
+rows=[]
+column_names = []
 cur = conn.cursor()
 try:
     cur.execute(zapytanie)
+    column_names = [desc[0] for desc in cur.description]
+    for row in cur:
+        rows.append(row)
 except:
     print("I can't do SELECT")
 
-rows = cur.fetchall()
+#rows = cur.fetchall()
 print("\nRows: \n")
-for row in rows:
-    print("   ", row)
+
+
+tab = tt.Texttable()
+
+tab.add_rows(rows, tab.header(column_names))
+
+s = tab.draw()
+print(s)
 
 conn.close()
 

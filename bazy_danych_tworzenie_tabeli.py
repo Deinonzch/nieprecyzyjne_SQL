@@ -10,9 +10,9 @@ CREATE TABLE pokemon(
     total integer,
     hp integer,
     attack integer,
-    defense integer,
+    defence integer,
     special_attack integer,
-    special_defense integer,
+    special_defence integer,
     speed integer
 )
 """)

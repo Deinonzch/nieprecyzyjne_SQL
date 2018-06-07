@@ -1,5 +1,9 @@
 # nieprecyzyjne_SQL
 
+do zadziałania skryptu write_table.py, potrzebna jest biblioteka texttable:
+
+pip3 install texttable
+
 Bazy danych: https://public.tableau.com/en-us/s/resources
 
 Tworzenie bazy:
