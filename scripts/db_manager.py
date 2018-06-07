@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import psycopg2
+import csv
 
 
 class DBManager(object):
@@ -25,16 +26,17 @@ class DBManager(object):
             print('Failed to execute query.')
             return None
 
-        table = cur.fetchall()
-        return table
+        db_list = cur.fetchall()
+        return db_list
 
 
-    def write_to_file(self, table, fname):
+    def write_to_file(self, db_list, fname):
         """Write to file
         """
-        with open(fname, 'w') as table_f:
-            for row in table:
-                table_f.write('{}\n'.format(row))
+        with open(fname,'w') as f:
+            tsv_f = csv.writer(f, delimiter='\t')
+            for db_tuple in db_list:
+                tsv_f.writerow(db_tuple)
 
 
     def print_table(self, table):

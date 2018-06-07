@@ -4,9 +4,11 @@
 import json
 import shutil
 import csv
+import re
 
 
-INSTR = ['select', 'count']
+INSTRUCTIONS = ['SELECT']
+FUNCTIONS = ['COUNT', 'AVG', 'SUM', 'MIN', 'MAX']
 
 
 class TableManager(object):
@@ -24,30 +26,87 @@ class TableManager(object):
                 writer.writerow([elem for elem in tpl])
 
 
-    def extract_tuples(self, feature, interval, table_file, tuples_file):
+    def extract_tuples(self, constraints, in_file, tmp_file):
         """Extract tuple if value of the feature in the interval
         """
-        tuples = []
-        with open(table_file, 'r') as table_f:
-            header = tuple(table_f.readline().strip('\n').split('\t'))
-            index = header.index(feature)
-            for line in table_f:
-                tpl = tuple(line.strip('\n').split('\t'))
-                feature_val = float(tpl[index])
-                if feature_val in interval:
-                    tuples.append(tpl)
-        tuples_dict = {'header': header, 'tuples': tuples}
-        #print(json.dumps(tuples_dict, indent=4, ensure_ascii=False))
-        write_tuples_file(tuples_dict, tuples_file)
+        with open(in_file, 'r') as in_f:
+            reader = csv.reader(in_f, delimiter='\t')
+            header = next(reader)
+
+            with open(tmp_file, 'w') as tmp_f:
+                writer = csv.writer(tmp_f, delimiter='\t')
+                writer.writerow(header)
+
+                for line in reader:
+                    constraint_violated = False
+
+                    for constraint in constraints:
+                        #index = header.index(feature)
+                        #TODO: zapamiętywanie nagłówka w bazie? jeśli nie, to skąd mam wiedzieć która kolumna odpowiada jakiej zmiennej? (poniżej NA SZTYWNO)
+                        if constraint['feature'] == 'attack':
+                            index = 5  
+                        elif constraint['feature'] == 'defence':
+                            index = 6
+                        else:
+                            index = 9
+
+                        if float(line[index]) not in range(*constraint['interval']):
+                            constraint_violated = True
+                            break
+
+                    if not constraint_violated:
+                        writer.writerow(line)
 
 
-    def execute_instruction(self, instr, tuples_file, output_file):
-        """Execute instruction
+    def execute_instruction(self, instr, func, col_names, tmp_file, out_file):
+        """Execute instruction and function
         """
-        if instr == INSTR[0]:
-            shutil.move(tuples_file, output_file)
-        elif instr == INSTR[1]:
-            with open(tuples_file, 'r') as tuples_f:
-                num_lines = sum(1 for line in tuples_f)-1
-            with open(output_file, 'w') as output_f:
-                output_f.write('{}'.format(num_lines))
+        #TODO: Finish implementation of this function
+
+        if not func:
+            if '*' in col_names:
+                shutil.move(tmp_file, out_file)
+                return
+            """else:
+                with open(tmp_file, 'r') as tmp_f:
+                    reader = csv.reader(in_f, delimiter='\t')
+                    header = next(reader)
+
+                    indexed = []
+                    for col_name in col_names:
+                        indexes.append(header.index(col_name))
+
+                    with open(out_file, 'w') as out_f:
+                        writer = csv.writer(out_f, delimiter='\t')
+                        for line in tmp_f:
+                            writer.writerow(line[index] for index in indexes)
+                return"""
+
+        """values_list = []
+        with open(tmp_file, 'r') as tmp_f:
+            reader = csv.reader(in_f, delimiter='\t')
+            header = next(reader)
+
+            col_no = header.index(col_names[0])
+            for line in tmp_f:
+                values_list.append(line[column_no])
+
+            if func == FUNCTIONS[0]:
+                out_value = sum(1 for line in f)
+
+            elif func == FUNCTIONS[1]:
+                sum_value = 0
+                len_value = 0
+                for line in f:
+                    sum_value = sum(sum_value, line[column_no])
+                    len_value += 1
+                out_value = sum_value / float(len_value)
+
+            elif func == FUNCTIONS[2]:
+                out_value = sum(line[column_no] for line in f)
+
+            elif func == FUNCTIONS[3]:
+                pass
+
+            elif func == FUNCTIONS[4]:
+                pass"""
