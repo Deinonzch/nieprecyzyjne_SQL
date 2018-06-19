@@ -8,7 +8,6 @@ import re
 import sys
 
 
-INSTRUCTIONS = ['SELECT']
 FUNCTIONS = ['COUNT', 'AVG', 'SUM', 'MIN', 'MAX']
 
 

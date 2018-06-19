@@ -29,6 +29,14 @@ class QueryParser(object):
         return constraints, conj_in_expr'''
 
 
+    def validate_query(self, query):
+        """Validate query
+        """
+        if query.function and len(query.columns) > 1:
+            print('Invalid query: too many function arguments. Exiting.')
+            sys.exit(1)
+
+
     def parse_query(self, query, user_query):
         """Parse user query
         """

@@ -64,7 +64,9 @@ def process_fuzzy_query(user_query, threshold, db_mgr):
     print('Query parsed.')
 
     #  Verify correctness of the query
-    #TODO: Implement verification (function + multiple columns provided not as *)
+    print('Validating query ...')
+    parser.validate_query(query)
+    print('Query validated. No errors found.')
 
     #  Retrieve requested table
     print('\nRetrieving requested table from the database ...')
@@ -96,8 +98,8 @@ def main():
 
     threshold = 0.5
     #user_query = 'SELECT * FROM pokemon WHERE attack > 35'
-    #user_query = 'SELECT attack, defense, speed FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
-    user_query = 'SELECT MAX(defense) FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
+    user_query = 'SELECT SUM(attack, defense, speed) FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
+    #user_query = 'SELECT MAX(defense) FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
     #user_query = 'SELECT COUNT(attack) FROM pokemon WHERE attack is weak'
 
     #  Try to execute as an ordinary sql query
