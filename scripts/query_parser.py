@@ -8,10 +8,9 @@ import sys
 class QueryParser(object):
 
     def __init__(self):
-        #TODO: Parse also SELECT COUNT()
         self.RE_INSTRUCTION = re.compile(r'^([a-zA-Z]+)\s+.+\s+FROM')
-        self.RE_FUNCTION = re.compile(r'^[a-zA-Z]+\s+([a-zA-Z]*)[\(]*.*[\)]*\s+FROM')
-        self.RE_COLUMNS = re.compile(r'^[a-zA-Z]+\s+[a-zA-Z\(]*([a-zA-Z,* ]+)[\)]*\s+FROM')
+        self.RE_FUNCTION = re.compile(r'^[a-zA-Z]+\s+([a-zA-Z]*\()*.*\s+FROM')
+        self.RE_COLUMNS = re.compile(r'^[a-zA-Z]+\s+([a-zA-Z]*\()*([a-zA-Z,* ]*).*\s+FROM')
         self.RE_TABLE_NAME = re.compile(r'FROM\s+([a-zA-Z]+)')
 
         self.RE_CONSTRAINT = re.compile(r'^\s*([a-zA-Z]+)\s+(is|==)\s+([a-zA-Z]+)\s*$')
@@ -39,9 +38,14 @@ class QueryParser(object):
             query.constr_expr = re.split('WHERE', user_query)[1].strip()
     
             query.instruction = self.RE_INSTRUCTION.search(query.instr_expr).group(1)
-            query.function = self.RE_FUNCTION.search(query.instr_expr).group(1)
+            
+            function = self.RE_FUNCTION.search(query.instr_expr).group(1)
+            if function:
+                query.function = function.strip('(')
+            else:
+                query.function = ''
 
-            query.columns = [col.strip() for col in self.RE_COLUMNS.search(query.instr_expr).group(1).split(',')]
+            query.columns = [col.strip() for col in self.RE_COLUMNS.search(query.instr_expr).group(2).split(',')]
 
             query.table_name = self.RE_TABLE_NAME.search(query.instr_expr).group(1)
 

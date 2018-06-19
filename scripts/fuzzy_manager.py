@@ -101,4 +101,6 @@ class FuzzyManager(object):
             interval = self.parse_constraint(constraint['feature'], constraint['value'], fcl_file)
             constraint['interval'] = interval
             if not interval:
-                print('Failed to obtain interval for feature \'{}\' and value \'{}\'. Constraint will be ignored.'.format(constraint['feature'], constraint['value']))
+                print('Failed to obtain interval for feature'
+                      + ' \'{}\' and value \'{}\'.'.format(constraint['feature'], constraint['value'])
+                      + ' Constraint will be ignored.')

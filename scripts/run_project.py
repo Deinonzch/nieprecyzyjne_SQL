@@ -96,15 +96,16 @@ def main():
 
     threshold = 0.5
     #user_query = 'SELECT * FROM pokemon WHERE attack > 35'
-    user_query = 'SELECT * FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
+    user_query = 'SELECT attack, defense, speed FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
     #user_query = 'SELECT COUNT(*) FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
+    #user_query = 'SELECT COUNT(attack) FROM pokemon WHERE attack is weak'
 
     #  Try to execute as an ordinary sql query
     #  If failure, process query with fuzzy constraints
     print('\nTrying to execute query directly ...')
     db_mgr = DBManager()
-    if db_mgr.execute_directly(user_query, IN_FILE):
-        print('Query executed directly. Exiting.')
+    if db_mgr.execute_directly(user_query, OUT_FILE):
+        print('Query executed directly. Output saved to \'{}\' file. Exiting.'.format(OUT_FILE))
         sys.exit(1)
     else:
         process_fuzzy_query(user_query, threshold, db_mgr)

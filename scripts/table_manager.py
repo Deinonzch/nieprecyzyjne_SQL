@@ -58,22 +58,37 @@ class TableManager(object):
 
         if not func:
             if '*' in col_names:
+                print('INSIDE IF')
                 shutil.move(tmp_file, out_file)
                 return
-            """else:
+            else:
+                print('INSIDE ELSE')
                 with open(tmp_file, 'r') as tmp_f:
-                    reader = csv.reader(in_f, delimiter='\t')
+                    reader = csv.reader(tmp_f, delimiter='\t')
                     header = next(reader)
 
-                    indexed = []
+                    indexes = []
                     for col_name in col_names:
                         indexes.append(header.index(col_name))
 
                     with open(out_file, 'w') as out_f:
                         writer = csv.writer(out_f, delimiter='\t')
-                        for line in tmp_f:
+                        writer.writerow(col_names)
+                        for line in reader:
                             writer.writerow(line[index] for index in indexes)
-                return"""
+                return
+
+        if func == FUNCTIONS[0]:
+            pass
+        elif func == FUNCTIONS[1]:
+            pass
+        elif func == FUNCTIONS[2]:
+            pass
+        elif func == FUNCTIONS[3]:
+            pass
+        else:
+            pass
+        print('OUTSIDE EVERYTHING')
 
         """values_list = []
         with open(tmp_file, 'r') as tmp_f:
