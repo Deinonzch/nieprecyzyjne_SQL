@@ -17,6 +17,25 @@ class TableManager(object):
     def __init__(self):
         pass
 
+    def write_func_output(self, out_file, func, col_name, output):
+        """Write function output to file
+        """
+        with open(out_file, 'w') as out_f:
+            out_f.write('Function: {}\n'.format(func))
+            out_f.write('  Column: {}\n'.format(col_name))
+            out_f.write('-----------------\n')
+            out_f.write('  OUTPUT: {}'.format(output))
+
+
+    def print_func_output(self, func, col_name, output):
+        """Print function output to console
+        """
+        print('Function: {}'.format(func))
+        print('  Column: {}'.format(col_name))
+        print('-----------------')
+        print('  OUTPUT: {}'.format(output))
+
+
     def write_tuples_file(self, tuples_dict, tuples_file):
         """Write tuples to file
         """
@@ -54,15 +73,13 @@ class TableManager(object):
     def execute_instruction(self, instr, func, col_names, tmp_file, out_file):
         """Execute instruction and function
         """
-        #TODO: Finish implementation of this function
-
         if not func:
             if '*' in col_names:
-                print('INSIDE IF')
+                print('No function, all columns')
                 shutil.move(tmp_file, out_file)
                 return
             else:
-                print('INSIDE ELSE')
+                print('No function, specific columns')
                 with open(tmp_file, 'r') as tmp_f:
                     reader = csv.reader(tmp_f, delimiter='\t')
                     header = next(reader)
@@ -78,43 +95,38 @@ class TableManager(object):
                             writer.writerow(line[index] for index in indexes)
                 return
 
-        if func == FUNCTIONS[0]:
-            pass
-        elif func == FUNCTIONS[1]:
-            pass
-        elif func == FUNCTIONS[2]:
-            pass
-        elif func == FUNCTIONS[3]:
-            pass
-        else:
-            pass
-        print('OUTSIDE EVERYTHING')
-
-        """values_list = []
+        col_name = col_names[0]
+        values = []
         with open(tmp_file, 'r') as tmp_f:
-            reader = csv.reader(in_f, delimiter='\t')
+            reader = csv.reader(tmp_f, delimiter='\t')
             header = next(reader)
 
-            col_no = header.index(col_names[0])
-            for line in tmp_f:
-                values_list.append(line[column_no])
+            if col_name == '*':
+                col_no = 0
+            else:
+                col_no = header.index(col_name)
+            for line in reader:
+                values.append(line[col_no])
 
-            if func == FUNCTIONS[0]:
-                out_value = sum(1 for line in f)
+        if func == FUNCTIONS[0]:
+            output = len(values)
 
-            elif func == FUNCTIONS[1]:
-                sum_value = 0
-                len_value = 0
-                for line in f:
-                    sum_value = sum(sum_value, line[column_no])
-                    len_value += 1
-                out_value = sum_value / float(len_value)
+        values = [float(value) for value in values]
+        if func == FUNCTIONS[1]:
+            output = sum(values)/float(len(values))
 
-            elif func == FUNCTIONS[2]:
-                out_value = sum(line[column_no] for line in f)
+        elif func == FUNCTIONS[2]:
+            output = sum(values)
 
-            elif func == FUNCTIONS[3]:
-                pass
+        elif func == FUNCTIONS[3]:
+            output = min(values)
 
-            elif func == FUNCTIONS[4]:
-                pass"""
+        elif func == FUNCTIONS[4]:
+            output = max(values)
+
+        output = round(output, 2)
+
+        self.print_func_output(func, col_name, output)
+        self.write_func_output(out_file, func, col_name, output)
+
+        return

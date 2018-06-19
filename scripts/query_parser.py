@@ -55,6 +55,6 @@ class QueryParser(object):
                 value = self.RE_CONSTRAINT.search(constraint).group(3)
                 constraint_dict = {'feature': feature, 'value': value}
                 query.constraints.append(constraint_dict)
-        except ImportError:
+        except:
             print('Failed to parse query. Exiting.')
             sys.exit(1)
