@@ -1,5 +1,7 @@
 __pycache__/
 *.pyc
 *.swp
-files/output.tsv
-files/tuples.tsv
+.~lock
+files/in.tsv
+files/tmp.tsv
+files/out.tsv

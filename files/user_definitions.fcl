@@ -2,7 +2,7 @@ FUNCTION_BLOCK pokemon
 
 VAR_INPUT				
 	attack : REAL;
-	defence : REAL;
+	defense : REAL;
         speed : REAL;
 END_VAR
 
@@ -12,7 +12,7 @@ FUZZIFY attack
 	TERM strong := (95, 0) (190, 0) (190, 0);
 END_FUZZIFY
 
-FUZZIFY defence
+FUZZIFY defense
 	TERM weak := (0, 0) (0, 0) (115, 0);
         TERM medium := (0, 0) (115, 0) (230, 0);
 	TERM strong := (115, 0) (230, 0) (230, 0);

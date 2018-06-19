@@ -27,16 +27,18 @@ class DBManager(object):
             return None
 
         db_list = cur.fetchall()
-        return db_list
+        column_names = [desc[0] for desc in cur.description]
+        return db_list, column_names
 
 
-    def write_to_file(self, db_list, fname):
+    def write_to_file(self, table, col_names, fname):
         """Write to file
         """
         with open(fname,'w') as f:
-            tsv_f = csv.writer(f, delimiter='\t')
-            for db_tuple in db_list:
-                tsv_f.writerow(db_tuple)
+            writer = csv.writer(f, delimiter='\t')
+            writer.writerow(col_names)
+            for row in table:
+                writer.writerow(row)
 
 
     def print_table(self, table):
@@ -54,16 +56,16 @@ class DBManager(object):
         """Retrieve requested table
         """
         query = 'SELECT * FROM {}'.format(table_name)
-        table = self.execute_query(query)
-        self.write_to_file(table, fname)
+        table, col_names = self.execute_query(query)
+        self.write_to_file(table, col_names, fname)
 
 
     def execute_directly(self, query, fname):
         """Try to execute query directly, without any parsing
         """
         try:
-            table = self.execute_query(query)
-            self.write_to_file(table, fname)
+            table, col_names = self.execute_query(query)
+            self.write_to_file(table, col_names, fname)
             self.print_table(table)
             return 1
         except:

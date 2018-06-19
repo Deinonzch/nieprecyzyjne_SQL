@@ -96,8 +96,8 @@ def main():
 
     threshold = 0.5
     #user_query = 'SELECT * FROM pokemon WHERE attack > 35'
-    user_query = 'SELECT * FROM pokemon WHERE attack is strong AND defence is medium AND speed is slow'
-    #user_query = 'SELECT COUNT(*) FROM pokemon WHERE attack is strong AND defence is medium AND speed is slow'
+    user_query = 'SELECT * FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
+    #user_query = 'SELECT COUNT(*) FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
 
     #  Try to execute as an ordinary sql query
     #  If failure, process query with fuzzy constraints

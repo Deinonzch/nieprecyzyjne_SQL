@@ -5,6 +5,7 @@ import json
 import shutil
 import csv
 import re
+import sys
 
 
 INSTRUCTIONS = ['SELECT']
@@ -32,7 +33,6 @@ class TableManager(object):
         with open(in_file, 'r') as in_f:
             reader = csv.reader(in_f, delimiter='\t')
             header = next(reader)
-
             with open(tmp_file, 'w') as tmp_f:
                 writer = csv.writer(tmp_f, delimiter='\t')
                 writer.writerow(header)
@@ -41,14 +41,7 @@ class TableManager(object):
                     constraint_violated = False
 
                     for constraint in constraints:
-                        #index = header.index(feature)
-                        #TODO: zapamiętywanie nagłówka w bazie? jeśli nie, to skąd mam wiedzieć która kolumna odpowiada jakiej zmiennej? (poniżej NA SZTYWNO)
-                        if constraint['feature'] == 'attack':
-                            index = 5  
-                        elif constraint['feature'] == 'defence':
-                            index = 6
-                        else:
-                            index = 9
+                        index = header.index(constraint['feature'])
 
                         if float(line[index]) not in range(*constraint['interval']):
                             constraint_violated = True
