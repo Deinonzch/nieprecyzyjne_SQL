@@ -1,5 +1,14 @@
 # nieprecyzyjne_SQL
 
+Warstwa rozszerzająca zapytania SQL o zapytania nieprecyzyjne
+
+
+## Uruchomienie programu
+python3 scripts/run_project.py
+
+
+## Operacje na bazie danych
+
 do zadziałania skryptu write_table.py, potrzebna jest biblioteka texttable:
 
 pip3 install texttable
@@ -17,8 +26,6 @@ $ sudo -u postgres psql
 psql=# alter user alan with encrypted password 'alan';
 
 psql=# grant all privileges on database alan to alan ;
-
-
 
 
 tworzenie tabeli z pokemonami w postgresie:
