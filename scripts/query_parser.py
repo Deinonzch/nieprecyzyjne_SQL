@@ -16,19 +16,6 @@ class QueryParser(object):
         #TODO: Parsing when only some of constraints are fuzzy
         self.RE_CONSTRAINT = re.compile(r'^\s*([a-zA-Z]+)\s+(is|==|!=)\s+([NOT|not]*\s*[a-zA-Z]+)\s*$')
 
-        #self.CONJUNCTIONS = ['AND', 'OR', 'NOT']
-
-
-    #TODO: Implement parsing more complex constraints (with OR and NOT)
-    '''def split_constr_expr(self, expr):
-        delimiters = '|'.join(self.CONJUNCTIONS)
-        constraints = re.split(delimiters, expr)
-        conj_in_expr = []
-        for word in expr.split():
-            if word in self.CONJUNCTIONS:
-                conj_in_expr.append(word)
-        return constraints, conj_in_expr'''
-
 
     def validate_query(self, query):
         """Validate query
@@ -42,6 +29,8 @@ class QueryParser(object):
         """Parse constraint expression
         """
         constraints = re.split('AND|OR', query.constr_expr)
+        if 'OR' in query.constr_expr:
+            query.conjunction = 'OR'
         for constraint in constraints:
             feature = self.RE_CONSTRAINT.search(constraint).group(1)
             value = self.RE_CONSTRAINT.search(constraint).group(3).lower()

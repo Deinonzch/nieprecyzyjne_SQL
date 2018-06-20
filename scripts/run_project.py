@@ -81,7 +81,7 @@ def process_fuzzy_query(user_query, threshold, db_mgr):
 
     #  Search for tuples
     print('\nExtracting tuples that meet the requirement ...')
-    table_mgr.extract_tuples(query.constraints, IN_FILE, TMP_FILE)
+    table_mgr.extract_tuples(query.constraints, query.conjunction, IN_FILE, TMP_FILE)
     print('Tuples extracted and saved to temporary files.')
 
     #  Parse and execute instruction with function
@@ -99,7 +99,7 @@ def main():
     threshold = 0.8
     #user_query = 'SELECT * FROM pokemon WHERE attack > 35'
     #user_query = 'SELECT SUM(attack, defense, speed) FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
-    user_query = 'SELECT MAX(defense) FROM pokemon WHERE attack is strong AND defense is medium AND speed is not slow'
+    user_query = 'SELECT MAX(defense) FROM pokemon WHERE attack is strong OR defense is medium OR speed is not slow'
     #user_query = 'SELECT COUNT(attack) FROM pokemon WHERE attack is not weak'
     #user_query = 'SELECT * FROM pokemon WHERE attack is strong OR defense is medium OR speed is slow'
 

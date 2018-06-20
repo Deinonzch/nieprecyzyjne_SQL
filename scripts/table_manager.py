@@ -45,7 +45,7 @@ class TableManager(object):
                 writer.writerow([elem for elem in tpl])
 
 
-    def extract_tuples(self, constraints, in_file, tmp_file):
+    def extract_tuples(self, constraints, conj, in_file, tmp_file):
         """Extract tuple if value of the feature in the interval
         """
         with open(in_file, 'r') as in_f:
@@ -55,6 +55,7 @@ class TableManager(object):
                 writer = csv.writer(tmp_f, delimiter='\t')
                 writer.writerow(header)
 
+                one_preserved = False
                 for line in reader:
                     constraint_violated = False
 
@@ -64,8 +65,12 @@ class TableManager(object):
                         if float(line[index]) not in range(*constraint['interval']):
                             constraint_violated = True
                             break
+                        else:
+                            one_preserved = True
 
-                    if not constraint_violated:
+                    if conj == 'AND' and not constraint_violated:
+                        writer.writerow(line)
+                    elif conj == 'OR' and one_preserved:
                         writer.writerow(line)
 
 

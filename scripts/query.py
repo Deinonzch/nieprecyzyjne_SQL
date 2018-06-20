@@ -18,6 +18,7 @@ class Query(object):
         self.table_name = ''
 
         self.constraints = []
+        self.conjunction = 'AND'
 
 
     def __str__(self):
@@ -29,6 +30,7 @@ class Query(object):
             ('function', self.function),
             ('columns', self.columns),
             ('table_name', self.table_name),
+            ('conjunction', self.conjunction),
             ('constraints', self.constraints)
         ])
         return (json.dumps(dictionary, indent=4, ensure_ascii=False))
