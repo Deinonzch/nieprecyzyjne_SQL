@@ -13,6 +13,7 @@ class QueryParser(object):
         self.RE_COLUMNS = re.compile(r'^[a-zA-Z]+\s+([a-zA-Z]*\()*([a-zA-Z,* ]*).*\s+FROM')
         self.RE_TABLE_NAME = re.compile(r'FROM\s+([a-zA-Z]+)')
 
+        #TODO: Parsing when only some of constraints are fuzzy
         self.RE_CONSTRAINT = re.compile(r'^\s*([a-zA-Z]+)\s+(is|==)\s+([a-zA-Z]+)\s*$')
 
         #self.CONJUNCTIONS = ['AND', 'OR', 'NOT']
@@ -37,6 +38,17 @@ class QueryParser(object):
             sys.exit(1)
 
 
+    def parse_constr_expr(self, query):
+        """Parse constraint expression
+        """
+        constraints = query.constr_expr.split('AND')
+        for constraint in constraints:
+            feature = self.RE_CONSTRAINT.search(constraint).group(1)
+            value = self.RE_CONSTRAINT.search(constraint).group(3)
+            constraint_dict = {'feature': feature, 'value': value}
+            query.constraints.append(constraint_dict)
+
+
     def parse_query(self, query, user_query):
         """Parse user query
         """
@@ -57,12 +69,7 @@ class QueryParser(object):
 
             query.table_name = self.RE_TABLE_NAME.search(query.instr_expr).group(1)
 
-            constraints = query.constr_expr.split('AND')
-            for constraint in constraints:
-                feature = self.RE_CONSTRAINT.search(constraint).group(1)
-                value = self.RE_CONSTRAINT.search(constraint).group(3)
-                constraint_dict = {'feature': feature, 'value': value}
-                query.constraints.append(constraint_dict)
+            self.parse_constr_expr(query)
         except:
             print('Failed to parse query. Exiting.')
             sys.exit(1)

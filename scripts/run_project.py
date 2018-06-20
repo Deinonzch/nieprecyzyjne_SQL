@@ -75,7 +75,7 @@ def process_fuzzy_query(user_query, threshold, db_mgr):
 
     #  Parse constraints and obtain intervals
     print('\nParsing constraints from the query and obtaining intervals ...')
-    fuzzy_mgr.parse_constraints(query.constraints, FCL_FILE)
+    fuzzy_mgr.parse_constraints(query.constraints, threshold, FCL_FILE)
     print(json.dumps(query.constraints, indent=4, ensure_ascii=False))
     print('Constraints parsed.')
 
@@ -96,11 +96,13 @@ def main():
     #  Ask user for input
     #threshold, user_query = ask_for_input()
 
-    threshold = 0.5
+    threshold = 0.8
     #user_query = 'SELECT * FROM pokemon WHERE attack > 35'
-    user_query = 'SELECT SUM(attack, defense, speed) FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
+    #user_query = 'SELECT SUM(attack, defense, speed) FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
     #user_query = 'SELECT MAX(defense) FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
-    #user_query = 'SELECT COUNT(attack) FROM pokemon WHERE attack is weak'
+    user_query = 'SELECT COUNT(attack) FROM pokemon WHERE attack is weak'
+    #user_query = 'SELECT * FROM pokemon WHERE attack is strong OR defense is medium OR speed is slow'
+
 
     #  Try to execute as an ordinary sql query
     #  If failure, process query with fuzzy constraints

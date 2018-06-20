@@ -66,26 +66,33 @@ class FuzzyManager(object):
         return min_val, max_val
  
 
-    def define_skfuzzy_var(self, lingVar):
+    def define_skfuzzy_var(self, threshold, lingVar):
         """Define variable using skfuzzy syntax
         """
         min_val, max_val = self.find_min_max(lingVar)
         var = ctrl.Antecedent(np.arange(min_val, max_val, 1), lingVar.name)
         for term_dict in lingVar.term_dicts:
-            var[term_dict['term']] = fuzz.trimf(var.universe, term_dict['values'])
-        #var.view()
-        #input("Press Enter to continue...")
+            values = fuzz.trimf(var.universe, term_dict['values'])
+            thr_values = []
+            for value in values:
+                if value < threshold:
+                    thr_values.append(0)
+                else:
+                    thr_values.append(value)
+            var[term_dict['term']] = thr_values
+        var.view()
+        input("Press Enter to continue...")
         return var
 
 
-    def parse_constraint(self, feature, value, fcl_file):
+    def parse_constraint(self, feature, value, threshold, fcl_file):
         """Parse constraint and obtain an interval
         """
         interval = None
         lingVars = self.parse_fcl(fcl_file)
         for lingVar in lingVars:
             if lingVar.name == feature:
-                skfuzzy_var = self.define_skfuzzy_var(lingVar)
+                skfuzzy_var = self.define_skfuzzy_var(threshold, lingVar)
                 for term_dict in lingVar.term_dicts:
                     if term_dict['term'] == value:
                         interval_beg = min(term_dict['values'])
@@ -94,11 +101,11 @@ class FuzzyManager(object):
         return interval
 
 
-    def parse_constraints(self, constraints, fcl_file):
+    def parse_constraints(self, constraints, threshold, fcl_file):
         """Parse constraints
         """
         for constraint in constraints:
-            interval = self.parse_constraint(constraint['feature'], constraint['value'], fcl_file)
+            interval = self.parse_constraint(constraint['feature'], constraint['value'], threshold, fcl_file)
             constraint['interval'] = interval
             if not interval:
                 print('Failed to obtain interval for feature'

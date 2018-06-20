@@ -5,7 +5,6 @@ import json
 import shutil
 import csv
 import re
-import sys
 
 
 FUNCTIONS = ['COUNT', 'AVG', 'SUM', 'MIN', 'MAX']
