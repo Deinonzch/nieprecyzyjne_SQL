@@ -8,13 +8,13 @@ import sys
 class QueryParser(object):
 
     def __init__(self):
-        self.RE_INSTRUCTION = re.compile(r'^([a-zA-Z]+)\s+.+\s+FROM')
-        self.RE_FUNCTION = re.compile(r'^[a-zA-Z]+\s+([a-zA-Z]*\()*.*\s+FROM')
-        self.RE_COLUMNS = re.compile(r'^[a-zA-Z]+\s+([a-zA-Z]*\()*([a-zA-Z,* ]*).*\s+FROM')
-        self.RE_TABLE_NAME = re.compile(r'FROM\s+([a-zA-Z]+)')
+        self.RE_INSTRUCTION = re.compile(r'^([a-zA-Z]+)\s+.+\s+[FROM|from]')
+        self.RE_FUNCTION = re.compile(r'^[a-zA-Z]+\s+([a-zA-Z]*\()*.*\s+[FROM|from]')
+        self.RE_COLUMNS = re.compile(r'^[a-zA-Z]+\s+([a-zA-Z]*\()*([a-zA-Z,* ]*).*\s+[FROM|from]')
+        self.RE_TABLE_NAME = re.compile(r'[FROM|from]\s+([a-zA-Z]+)')
 
         #TODO: Parsing when only some of constraints are fuzzy
-        self.RE_CONSTRAINT = re.compile(r'^\s*([a-zA-Z]+)\s+(is|==)\s+([a-zA-Z]+)\s*$')
+        self.RE_CONSTRAINT = re.compile(r'^\s*([a-zA-Z]+)\s+(is|==|!=)\s+([NOT|not]*\s*[a-zA-Z]+)\s*$')
 
         #self.CONJUNCTIONS = ['AND', 'OR', 'NOT']
 
@@ -41,11 +41,16 @@ class QueryParser(object):
     def parse_constr_expr(self, query):
         """Parse constraint expression
         """
-        constraints = query.constr_expr.split('AND')
+        constraints = re.split('AND|OR', query.constr_expr)
         for constraint in constraints:
             feature = self.RE_CONSTRAINT.search(constraint).group(1)
-            value = self.RE_CONSTRAINT.search(constraint).group(3)
-            constraint_dict = {'feature': feature, 'value': value}
+            value = self.RE_CONSTRAINT.search(constraint).group(3).lower()
+            if 'not' in value:
+                polarity = False
+                value = value.replace('not', '').strip()
+            else:
+                polarity = True
+            constraint_dict = {'feature': feature, 'value': value, 'polarity': polarity}
             query.constraints.append(constraint_dict)
 
 
@@ -70,6 +75,6 @@ class QueryParser(object):
             query.table_name = self.RE_TABLE_NAME.search(query.instr_expr).group(1)
 
             self.parse_constr_expr(query)
-        except:
+        except ImportError:
             print('Failed to parse query. Exiting.')
             sys.exit(1)

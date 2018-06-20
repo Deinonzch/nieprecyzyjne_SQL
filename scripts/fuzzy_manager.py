@@ -66,7 +66,7 @@ class FuzzyManager(object):
         return min_val, max_val
  
 
-    def define_skfuzzy_var(self, threshold, lingVar):
+    def define_skfuzzy_var(self, threshold, polarity, lingVar):
         """Define variable using skfuzzy syntax
         """
         min_val, max_val = self.find_min_max(lingVar)
@@ -75,28 +75,37 @@ class FuzzyManager(object):
             values = fuzz.trimf(var.universe, term_dict['values'])
             thr_values = []
             for value in values:
-                if value < threshold:
-                    thr_values.append(0)
+                if polarity:
+                    if value < threshold:
+                        thr_values.append(0)
+                    else:
+                        thr_values.append(value)
                 else:
-                    thr_values.append(value)
+                    if value > threshold:
+                        thr_values.append(0)
+                    else:
+                        thr_values.append(value)
             var[term_dict['term']] = thr_values
         var.view()
         input("Press Enter to continue...")
-        return var
+        return var, thr_values
 
 
-    def parse_constraint(self, feature, value, threshold, fcl_file):
+    def parse_constraint(self, constraint, threshold, fcl_file):
         """Parse constraint and obtain an interval
         """
         interval = None
         lingVars = self.parse_fcl(fcl_file)
         for lingVar in lingVars:
-            if lingVar.name == feature:
-                skfuzzy_var = self.define_skfuzzy_var(threshold, lingVar)
+            if lingVar.name == constraint['feature']:
+                print()
+                skfuzzy_var, thr_values = self.define_skfuzzy_var(threshold, constraint['polarity'], lingVar)
                 for term_dict in lingVar.term_dicts:
-                    if term_dict['term'] == value:
-                        interval_beg = min(term_dict['values'])
-                        interval_end = max(term_dict['values'])
+                    
+                    print(term_dict)
+                    if term_dict['term'] == constraint['value']:
+                        interval_beg = [i for i, x in enumerate(thr_values) if x][0]
+                        interval_end = [i for i, x in enumerate(thr_values) if x][-1]
                         interval = tuple((interval_beg, interval_end))
         return interval
 
@@ -105,7 +114,7 @@ class FuzzyManager(object):
         """Parse constraints
         """
         for constraint in constraints:
-            interval = self.parse_constraint(constraint['feature'], constraint['value'], threshold, fcl_file)
+            interval = self.parse_constraint(constraint, threshold, fcl_file)
             constraint['interval'] = interval
             if not interval:
                 print('Failed to obtain interval for feature'

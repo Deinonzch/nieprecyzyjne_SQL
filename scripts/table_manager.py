@@ -5,6 +5,7 @@ import json
 import shutil
 import csv
 import re
+import sys
 
 
 FUNCTIONS = ['COUNT', 'AVG', 'SUM', 'MIN', 'MAX']
@@ -106,23 +107,28 @@ class TableManager(object):
             for line in reader:
                 values.append(line[col_no])
 
-        if func == FUNCTIONS[0]:
-            output = len(values)
+        try:
+            if func == FUNCTIONS[0]:
+                output = len(values)
 
-        values = [float(value) for value in values]
-        if func == FUNCTIONS[1]:
-            output = sum(values)/float(len(values))
+            values = [float(value) for value in values]
+            if func == FUNCTIONS[1]:
+                output = sum(values)/float(len(values))
 
-        elif func == FUNCTIONS[2]:
-            output = sum(values)
+            elif func == FUNCTIONS[2]:
+                output = sum(values)
 
-        elif func == FUNCTIONS[3]:
-            output = min(values)
+            elif func == FUNCTIONS[3]:
+                output = min(values)
 
-        elif func == FUNCTIONS[4]:
-            output = max(values)
+            elif func == FUNCTIONS[4]:
+                output = max(values)
 
-        output = round(output, 2)
+            output = round(output, 2)
+        except ValueError:
+            print('Error while executing function, possibly caused by'
+                  + ' lack of tuples fulfilling constraints. Exiting.')
+            sys.exit(1)
 
         self.print_func_output(func, col_name, output)
         self.write_func_output(out_file, func, col_name, output)
