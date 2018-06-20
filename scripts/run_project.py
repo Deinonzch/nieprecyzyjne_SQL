@@ -94,15 +94,7 @@ def main():
     """Main function
     """
     #  Ask user for input
-    #threshold, user_query = ask_for_input()
-
-    threshold = 0.8
-    #user_query = 'SELECT * FROM pokemon WHERE attack > 35'
-    #user_query = 'SELECT SUM(attack, defense, speed) FROM pokemon WHERE attack is strong AND defense is medium AND speed is slow'
-    user_query = 'SELECT MAX(defense) FROM pokemon WHERE attack is strong OR defense is medium OR speed is not slow'
-    #user_query = 'SELECT COUNT(attack) FROM pokemon WHERE attack is not weak'
-    #user_query = 'SELECT * FROM pokemon WHERE attack is strong OR defense is medium OR speed is slow'
-
+    threshold, user_query = ask_for_input()
 
     #  Try to execute as an ordinary sql query
     #  If failure, process query with fuzzy constraints
